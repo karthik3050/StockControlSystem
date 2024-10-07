@@ -1,0 +1,128 @@
+﻿@page
+@model scs3.Pages.GenerateModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: ghostwhite;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Sold Stock</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="sortOptions">Sort By:</label>
+                    </div>
+                    <select class="custom-select" id="sortOptions">
+                        <option value="5">Device Type</option>
+                        <option value="4">Device ID</option>
+                        <option value="3">Postcode</option>
+                        <option value="2">Client</option>
+                        <option value="1">Invoice Number</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button id="sortBtn" class="btn btn-success">Sort</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container container" style="max-height: 400px; overflow-y: auto;">
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        <form method="post">
+            <input type="hidden" name="selectedDevices" id="selectedDevices" value="" />
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Select</th>
+                        <th>Transaction #ID</th>
+                        <th>Client</th>
+                        <th>Postcode</th>
+                        <th>Device ID</th>
+                        <th>Device Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var device in Model.DeletedDevices)
+                    {
+                        <tr>
+                            <td><input type="checkbox" name="selectedDevice" value="@device.InvoiceNumber" /></td>
+                            <td style="background-color:darkgray; color: yellow">@device.InvoiceNumber</td>
+                            <td>@device.SoldTo</td>
+                            <td>@device.PostCode</td>
+                            <td>@device.DeviceID</td>
+                            <td>@device.DeviceType</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">Generate Invoice</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and Custom Script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+        document.querySelector('form').addEventListener('submit', function () {
+            var checkboxes = document.querySelectorAll('input[name="selectedDevice"]:checked');
+            var selectedDeviceIds = Array.from(checkboxes).map(function (checkbox) {
+                return checkbox.value;
+            });
+            document.querySelector('#selectedDevices').value = selectedDeviceIds.join(',');
+        });
+
+        $(document).ready(function () {
+            $('#sortBtn').click(function () {
+                var columnIdx = parseInt($('#sortOptions').val());
+                sortTable(columnIdx);
+            });
+
+            function sortTable(columnIdx) {
+                var rows = Array.from($('tbody tr'));
+
+                rows.sort(function (a, b) {
+                    var rowDataA = $(a).find('td').eq(columnIdx).text().trim().toLowerCase();
+                    var rowDataB = $(b).find('td').eq(columnIdx).text().trim().toLowerCase();
+                    return rowDataA.localeCompare(rowDataB);
+                });
+
+                var tbody = $('tbody');
+                tbody.html('');
+                rows.forEach(function (row) {
+                    tbody.append(row);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

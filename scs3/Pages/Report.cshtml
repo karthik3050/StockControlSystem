@@ -1,0 +1,180 @@
+﻿
+@page
+@model ReportModel
+@using Newtonsoft.Json
+
+<style>
+    .chart-container {
+        width: 400px;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+
+    .chart-title {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    /* Adjust margin and padding for the third chart */
+    #locationChartContainer {
+        margin-top: 150px; /* Increase the margin to move it further down */
+        margin-left: 280px;
+    }
+
+    #orderStatusChart {
+        width: 300px; /* Adjust width as needed */
+        height: 200px; /* Adjust height as needed */
+        
+    }
+
+</style>
+
+<h1>Device Type Distribution</h1>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around; margin-top: 50px;">
+    <div class="chart-container">
+        <canvas id="activeDeviceChart" width="200" height="150"></canvas>
+        <h2 class="chart-title">Active Devices</h2>
+    </div>
+    <div class="chart-container">
+        <canvas id="deletedDeviceChart" width="200" height="150"></canvas>
+        <h2 class="chart-title">Sold Devices</h2>
+    </div>
+</div>
+
+<div id="locationChartContainer" class="chart-container" style="width: 800px; height: 700px;">
+    <canvas id="locationDeviceChart" width="800" height="400"></canvas>
+    <h2 class="chart-title">Devices by Location</h2>
+</div>
+<div style="margin-top: 20px;">
+    <canvas id="orderStatusChart"></canvas>
+        <h1 class="chart-title">Order Status</h1>
+
+</div>
+
+
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Function to generate random colors
+        function generateRandomColors(count) {
+            var colors = [];
+            for (var i = 0; i < count; i++) {
+                var color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
+                colors.push(color);
+            }
+            return colors;
+        }
+
+        // Active devices chart data
+        var activeDeviceChartData = {
+            labels: @Html.Raw(JsonConvert.SerializeObject(Model.DeviceTypeDistribution.Keys)),
+            datasets: [{
+                label: 'Number of Active Devices',
+                data: @Html.Raw(JsonConvert.SerializeObject(Model.DeviceTypeDistribution.Values)),
+                backgroundColor: generateRandomColors(@Model.DeviceTypeDistribution.Count), // Generate random colors
+                borderColor: 'rgba(0, 0, 0, 0)', // No border
+                borderWidth: 0 // No border width
+                         
+            }]
+                           
+        };
+
+        // Deleted devices chart data
+        var deletedDeviceChartData = {
+            labels: @Html.Raw(JsonConvert.SerializeObject(Model.DeletedDeviceTypeDistribution.Keys)),
+            datasets: [{
+                label: 'Number of Sold Devices',
+                data: @Html.Raw(JsonConvert.SerializeObject(Model.DeletedDeviceTypeDistribution.Values)),
+                backgroundColor: generateRandomColors(@Model.DeletedDeviceTypeDistribution.Count), // Generate random colors
+                borderColor: 'rgba(0, 0, 0, 0)', // No border
+                borderWidth: 0 // No border width
+            }]
+        };
+
+        // Devices by location chart data
+        var locationDeviceChartData = {
+            labels: @Html.Raw(JsonConvert.SerializeObject(Model.DeviceLocationDistribution.Keys)),
+            datasets: [{
+                label: 'Devices by Location',
+                data: @Html.Raw(JsonConvert.SerializeObject(Model.DeviceLocationDistribution.Values)),
+                backgroundColor: generateRandomColors(@Model.DeviceLocationDistribution.Count), // Generate random colors
+                borderColor: 'rgba(0, 0, 0, 0)', // No border
+                borderWidth: 0 // No border width
+            }]
+        };
+
+        // Create Active Devices chart
+        var activeDeviceCtx = document.getElementById('activeDeviceChart').getContext('2d');
+        var activeDeviceChart = new Chart(activeDeviceCtx, {
+            type: 'bar',
+            data: activeDeviceChartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Create Deleted Devices chart
+        var deletedDeviceCtx = document.getElementById('deletedDeviceChart').getContext('2d');
+        var deletedDeviceChart = new Chart(deletedDeviceCtx, {
+            type: 'pie',
+            data: deletedDeviceChartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Create Devices by Location chart
+        var locationDeviceCtx = document.getElementById('locationDeviceChart').getContext('2d');
+        var locationDeviceChart = new Chart(locationDeviceCtx, {
+            type: 'bar',
+            data: locationDeviceChartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Order status chart data
+        var orderStatusChartData = {
+            labels: ['Packed', 'Shipped', 'Delivered'],
+            datasets: [{
+                label: 'Order Status',
+                data: [@Model.PackedCount, @Model.ShippedCount, @Model.DeliveredCount],
+                backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(75, 192, 192)'],
+                borderColor: 'rgba(0, 0, 0, 0)', // No border
+                borderWidth: 0 // No border width
+            }]
+        };
+
+        // Create Order Status chart
+        var orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
+        var orderStatusChart = new Chart(orderStatusCtx, {
+            type: 'bar',
+            data: orderStatusChartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    </script>
+}

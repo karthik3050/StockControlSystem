@@ -1,0 +1,76 @@
+﻿@page
+@model scs3.Pages.UsersModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Management</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS for page styling */
+        .form-section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>User Management</h2>
+        <div class="form-section">
+            <form method="post" asp-page-handler="DeleteUsers">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Select</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>OTP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Users != null)
+                        {
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td><input type="checkbox" name="selectedUsers" value="@user.Username" /></td>
+                                    <td>@user.Username</td>
+                                    <td>@user.Password</td>
+                                    <td>@user.OTP</td>
+                                    <!-- Add other relevant columns -->
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4">No users found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-danger">Delete Selected Users</button>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <h4>Generate OTP</h4>
+            <form method="post" asp-page-handler="GenerateOTP">
+                <div class="form-group">
+                    <label for="otpNumber">Enter 4-Digit OTP:</label>
+                    <input type="text" class="form-control" id="otpNumber" name="otpNumber" maxlength="4" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Generate OTP</button>
+            </form>
+        </div>
+
+        
+    </div>
+
+    <!-- Include Bootstrap JS (Optional, for certain Bootstrap components) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

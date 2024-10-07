@@ -1,0 +1,376 @@
+﻿@page
+@model scs3.Pages.InvenModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Devices</title>
+    <style>
+        body {
+            background-color: ghostwhite;
+        }
+
+        /* Styles for circular buttons */
+        .circular-button {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: black;
+            color: white;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 20px;
+            cursor: pointer;
+            line-height: 100px;
+        }
+
+            .circular-button:hover {
+                background-color: darkgrey;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden; /* Hide overflowing content */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            cursor: pointer; /* Cursor pointer for sortable headers */
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                font-size: 18px;
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+
+            .form-group button {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 18px;
+                cursor: pointer;
+            }
+
+                .form-group button:hover {
+                    background-color: #0056b3;
+                }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Adjust margin as needed */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <a href="#" class="circular-button" id="add-button">Add</a>
+        <a href="#" class="circular-button" id="view-button">View</a>
+        <a href="#" class="circular-button" id="manage-button">Sold Stock</a>
+        <a href="/Packed" class="circular-button" id="pack-button">To Pack</a>
+        <a href="/Shipped" class="circular-button" id="Ship-button">To Ship</a>
+        <a href="/Delivered" class="circular-button" id="Deliver-button">To Deliver</a>
+    </div>
+
+    <!-- Modal for Add Device Form -->
+    <div id="form-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeForm()">&times;</span>
+            <form method="post">
+                <div class="form-group">
+                    <label for="device-name">Device Name:</label>
+                    <input type="text" id="device-name" name="DeviceName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="device-id">Device ID:</label>
+                    <input type="text" id="device-id" name="DeviceID" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="device-type">Device Type:</label>
+                    <input type="text" id="device-type" name="DeviceType" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="Location" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="Quantity" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="Price" required>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" id="submit-button">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="devices-container">
+        <h2>Current Devices</h2>
+        <div class="search-container">
+            <input type="text" placeholder="Search ID" style="text-align:center" id="device-search-input" oninput="searchDevice()">
+        </div>
+        <table id="devices-table">
+            <!-- Table header -->
+            <thead>
+                <tr>
+                    <th class="sortable" data-table="devices-table" data-column="0">Device Name</th>
+                    <th class="sortable" data-table="devices-table" data-column="1">Device ID</th>
+                    <th class="sortable" data-table="devices-table" data-column="2">Device Type</th>
+                    <th class="sortable" data-table="devices-table" data-column="3">Location</th>
+                    <th class="sortable" data-table="devices-table" data-column="4">Quantity</th>
+                </tr>
+            </thead>
+            <!-- Table body -->
+            <tbody>
+                <!-- Data rows -->
+                @foreach (var device in Model.Devices)
+                {
+                    <tr>
+                        <td>@device.DeviceName</td>
+                        <td>@device.DeviceID</td>
+                        <td>@device.DeviceType</td>
+                        <td>@device.Location</td>
+                        <td>@device.Quantity</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="history">
+        <h2>Sold Stock</h2>
+        <div class="search-container">
+            <input type="text" placeholder="Search #ID" style="text-align:center" id="search-input" oninput="searchTransaction()">
+        </div>
+        <table id="history-table">
+            <!-- Table header -->
+            <thead>
+                <tr>
+                    <th class="sortable" data-table="history-table" data-column="0">Device ID</th>
+                    <th class="sortable" data-table="history-table" data-column="1">Transaction #ID</th>
+                    <th class="sortable" data-table="history-table" data-column="2">Device Name</th>
+                    <th class="sortable" data-table="history-table" data-column="3">Device Type</th>
+                    <th class="sortable" data-table="history-table" data-column="4">Sold To</th>
+                    <th class="sortable" data-table="history-table" data-column="5">Date</th>
+                    <th class="sortable" data-table="history-table" data-column="6">Quantity</th>
+                    <th align="center">Progress</th>
+                </tr>
+            </thead>
+            <!-- Table body -->
+            <tbody>
+                <!-- Data rows -->
+                @foreach (var history in await Model.GetDeletedDeviceHistoryAsync())
+                {
+                    <tr>
+                        <td>@history.DeviceID</td>
+                        <td style="background-color:darkgray; color: yellow">@history.InvoiceNumber</td>
+                        <td>@history.DeviceName</td>
+                        <td>@history.DeviceType</td>
+                        <td>@history.SoldTo</td>
+                        <td>@history.Date.ToString("dd/MM/yyyy")</td>
+                        <td>@history.Quantity</td>
+                        <td>
+                            @if (history.Status == 0)
+                            {
+                                <span style="color: darkorange;">Ready To Be Packed</span>
+                            }
+                            else if (history.Status == 1)
+                            {
+                                <span style="color: orange;">Packed</span>
+                            }
+                            else if (history.Status == 2)
+                            {
+                                <span style="color: blue;">Shipped</span>
+                            }
+                            else if (history.Status == 3)
+                            {
+                                <span style="color: green;">Delivered</span>
+                            }
+                            else
+                            {
+                                <span style="color: red;">Error</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+      
+    <script>
+
+
+        document.getElementById('add-button').addEventListener('click', function () {
+            document.getElementById('form-modal').style.display = 'block';
+        });
+
+        document.getElementById('view-button').addEventListener('click', function () {
+            document.getElementById('devices-container').style.display = 'block';
+        });
+
+        function closeForm() {
+            document.getElementById('form-modal').style.display = 'none';
+        }
+        function closeModal() {
+            document.getElementById('pack-modal').style.display = 'none';
+        }
+
+        // Function to sort a table by column index
+        function sortTable(tableId, columnIdx) {
+            var table = document.getElementById(tableId);
+            var rows = Array.from(table.rows).slice(1); // Exclude the header row
+
+            rows.sort(function (a, b) {
+                var textA = a.cells[columnIdx].textContent.trim();
+                var textB = b.cells[columnIdx].textContent.trim();
+                return textA.localeCompare(textB);
+            });
+
+            // Clear the table body
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+
+            // Re-append sorted rows
+            rows.forEach(function (row) {
+                table.appendChild(row);
+            });
+        }
+
+        // Add event listeners for sorting
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.sortable').forEach(function (header) {
+                header.addEventListener('click', function () {
+                    var tableId = this.dataset.table;
+                    var columnIdx = parseInt(this.dataset.column);
+                    sortTable(tableId, columnIdx);
+                });
+            });
+        });
+
+
+
+        // Function to search by transaction number
+        function searchTransaction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search-input");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("history-table");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; // Column index for Transaction #ID
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Function to search by device name
+        function searchDevice() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("device-search-input");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("devices-table");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; // Column index for Device Name
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+
+    </script>
+</body>
+</html>

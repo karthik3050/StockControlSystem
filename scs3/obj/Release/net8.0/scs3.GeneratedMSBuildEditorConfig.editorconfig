@@ -1,0 +1,79 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = scs3
+build_property.RootNamespace = scs3
+build_property.ProjectDir = C:\Users\karthik reddy\Desktop\MSC Project\code\branches\scs3\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\karthik reddy\Desktop\MSC Project\code\branches\scs3
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Alerts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWxlcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Delivered.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsaXZlcmVkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Generate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2VuZXJhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Inven.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW52ZW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Packed.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFja2VkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Shipped.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hpcHBlZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Stmov.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rtb3YuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Users.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/karthik reddy/Desktop/MSC Project/code/branches/scs3/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-ccph4vgfcc

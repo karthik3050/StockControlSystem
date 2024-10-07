@@ -1,0 +1,77 @@
+﻿@page
+@model scs3.Pages.AlertsModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Device Alerts</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-group {
+            margin-bottom: 0.5rem;
+            display: flex; /* Display flex for inline form */
+            align-items: center; /* Align items vertically */
+        }
+
+        .form-control {
+            width: 60px; /* Reduced size to accommodate up to 3 digits */
+            flex: 1; /* Take remaining space in flex container */
+        }
+
+        .btn-primary {
+            margin-left: 10px; /* Add margin between input and button */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5 mb-4">Device Quantity Alerts</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Device Name</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var device in Model.Devices)
+                    {
+                        <tr>
+                            <td>@device.DeviceName</td>
+                            <td>@device.Quantity</td>
+                            <td>
+                                @if (device.AlertStatus == "Low Stock")
+                                {
+                                    <span class="badge badge-danger">@device.AlertStatus</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-success">@device.AlertStatus</span>
+                                }
+                            </td>
+                            <td>
+                                <form method="post" class="form-inline">
+                                    <!-- Changed to inline form -->
+                                    <input type="hidden" name="DeviceName" value="@device.DeviceName" />
+                                    <div class="form-group">
+                                        <input type="number" name="NewQuantity" class="form-control" placeholder="#" required />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Re-order</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Optional: jQuery and Bootstrap JS (for Bootstrap components that require JS) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

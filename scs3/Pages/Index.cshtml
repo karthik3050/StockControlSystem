@@ -1,0 +1,187 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: lightsteelblue; /* Light gray background */
+        }
+
+        .container1 {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .section {
+            flex-basis: 48%;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: lightgrey; /* White background */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333333; /* Dark text color */
+        }
+
+        .sales-boxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .box {
+            color:deepskyblue;
+            flex: 1 1 30%; /* Flex properties */
+            min-width: 200px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: black; /* Light green background */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+            .box:hover {
+                transform: translateY(-5px);
+            }
+
+        .static-text {
+            font-size: 0.85rem;
+            color: white; /* Light text color */
+        }
+
+        .center-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="container1">
+            <div class="section">
+                <div class="title">Sales Activity</div>
+                <div class="sales-boxes">
+                    <div class="box">
+                        <h2>@Model.DeletedDevicesCount</h2>
+                        <span>Qty</span> <br />
+                        <span class="static-text">To be Packed</span>
+                    </div>
+                    <div class="box">
+                        <h2>@Model.PackedDevicesCount</h2>
+                        <span>Qty</span> <br />
+                        <span class="static-text">To be Shipped</span>
+                    </div>
+                    <div class="box">
+                        <h2>@Model.ShippedDevicesCount</h2>
+                        <span>Qty</span> <br />
+                        <span class="static-text">To be Delivered</span>
+                    </div>
+                    <div class="box">
+                        <h2>@Model.DeliveredDevicesCount</h2>
+                        <span>Qty</span> <br />
+                        <span class="static-text">Delivered Products</span>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="title">Mobile User Activity</div>
+                <div class="sales-boxes">
+                    <div class="box">
+                        <h2>@Model.OTPCount</h2>
+                        <span class="static-text">Total&nbsp;OTP's</span>
+                    </div>
+                    <div class="box">
+                        <h2>@Model.UserCount</h2>
+                        <span class="static-text">Active&nbsp;Users</span>
+                    </div>
+                    <div class="box center-btn">
+                        <a href="/Users" class="btn btn-outline-warning">ADD&nbsp;/&nbsp;REMOVE USERS</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="section">
+                <div class="title">Product Details</div>
+                <div class="sales-boxes">
+                    <div class="box">
+                        <h5 style="color:red">Low stock items&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.LowStockDevicesCount</span></h5>
+                        <h5 style="color:green">All items&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.ItemCount</span></h5>
+                        <h5 style="color:green">All item Groups&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.DevicesCount</span></h5>
+                        <h5 style="color:orangered">Unconfirmed items&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.DevicesCount</span></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="title">Product Movement</div>
+                <div class="sales-boxes">
+                    <div class="box">
+                        <h5 style="color:red">Total Orders&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.SoldCount</span></h5>
+                        <h5 style="color:green">Total Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">£@Model.SalesCount</span></h5>
+                        <h5 style="color:green">Orders-In(24h)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.InCount</span></h5>
+                        <h5 style="color:orangered">Orders-Out(24h)&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.OutCount</span></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="title">Packed Products</div>
+                <div class="sales-boxes">
+                    <div class="box">
+                        <h5 style="color:red">All Devices&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.PackDCount</span></h5>
+                        <h5 style="color:green">Total Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">£@Model.PackPCount</span></h5>
+                        <h5 style="color:green">Device Types&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.PackTCount</span></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="title">Shipped Products</div>
+                <div class="sales-boxes">
+                    <div class="box">
+                        <h5 style="color:red">All Devices&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.ShipDCount</span></h5>
+                        <h5 style="color:green">Total Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">£@Model.ShipPCount</span></h5>
+                        <h5 style="color:green">Device Types&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.ShipTCount</span></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="title">Delivered Products</div>
+                <div class="sales-boxes">
+                    <div class="box">
+                        <h5 style="color:red">All Devices&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.DeliverDCount</span></h5>
+                        <h5 style="color:green">Total Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">£@Model.DeliverPCount</span></h5>
+                        <h5 style="color:green">Device Types&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: white">@Model.DeliverTCount</span></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS (Optional, for certain Bootstrap components) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+    
